@@ -2,3 +2,4 @@
 <h1 (click)="register()">register</h1>
 <h1 (click)="showAlert()">Show</h1>
 <router-outlet></router-outlet>
+<app-loading-spinner *ngIf="showLoading$|async"></app-loading-spinner>
