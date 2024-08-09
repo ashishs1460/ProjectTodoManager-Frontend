@@ -9,11 +9,12 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { HttpTokenInterceptor } from './interceptor/http-token-interceptor';
 import { StoreModule } from '@ngrx/store';
 import { spinnerReducer } from './store/spinner.reducer';
 import { LoadingSpinnerComponent } from './common/loading-spinner/loading-spinner.component';
+import { HomeComponent } from './pages/home/home.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { LoadingSpinnerComponent } from './common/loading-spinner/loading-spinne
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,8 @@ import { LoadingSpinnerComponent } from './common/loading-spinner/loading-spinne
     }),
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({spinner:spinnerReducer}, {})
+    StoreModule.forRoot({spinner:spinnerReducer}, {}),
+    HttpClientModule
     
   ],
   providers: [

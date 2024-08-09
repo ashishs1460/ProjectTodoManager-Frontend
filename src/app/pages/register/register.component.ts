@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RegistrationRequest } from '../../model/registration-request';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -7,44 +7,55 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss'] // Note: Change to 'styleUrls' for an array
 })
 export class RegisterComponent {
-  registerRequest:RegistrationRequest ={
-    firstName:'',
-    lastName:'',
-    email:'',
-    password:''
-  }
-  errorMsg:string[] = []
+  registerForm: FormGroup; // Declare FormGroup
 
-  constructor(private router:Router,
-    private authService:AuthService ,
-    private toastr : ToastrService     
-  ){}
-
-  register() {
-    this.authService.register(this.registerRequest).subscribe({
-      next: (response) => {
-        console.log('Response:', response); // Log the response object
-        if (response.status === 201) {
-          this.router.navigate(['/login'])
-        } else {
-          this.toastr.error('Unexpected response status', 'Error');
-        }
-      },
-      error: (err) => {
-        console.error('Error:', err); 
-        if (err.status === 409) {
-          this.toastr.error(err.error?.message || 'User already exists', 'Error');
-        } else {
-          this.toastr.error('Registration failed', 'Error');
-        }
-      }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {
+    // Initialize form with validation rules
+    this.registerForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(1)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
-  login(){
+  register() {
+    if (this.registerForm.valid) {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: (response) => {
+          if (response.status === 201) {
+            this.router.navigate(['/login']);
+          } else {
+            this.toastr.error('Unexpected response status', 'Error');
+          }
+        },
+        error: (err) => {
+          if (err.status === 409) {
+            this.toastr.error(err.error?.message || 'User already exists', 'Error');
+          } else {
+            this.toastr.error('Registration failed', 'Error');
+          }
+        }
+      });
+    } else {
+      this.toastr.error('Please fill in all fields correctly.', 'Validation Error');
+    }
+  }
+
+  login() {
     this.router.navigate(['login']);
+  }
+
+  
+  get f() {
+    return this.registerForm.controls;
   }
 }
