@@ -14,7 +14,6 @@ import { HttpTokenInterceptor } from './interceptor/http-token-interceptor';
 import { StoreModule } from '@ngrx/store';
 import { spinnerReducer } from './store/spinner.reducer';
 import { LoadingSpinnerComponent } from './common/loading-spinner/loading-spinner.component';
-import { HomeComponent } from './pages/home/home.component';
 
 
 @NgModule({
@@ -22,8 +21,7 @@ import { HomeComponent } from './pages/home/home.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoadingSpinnerComponent,
-    HomeComponent
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
