@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class TokenService {
+ 
 
   private readonly _ACCESS_TOKEN_KEY = 'accessToken';
 
@@ -20,6 +21,8 @@ export class TokenService {
 
   isTokenValid(): boolean {
     const token = this.getAccessToken();
+    console.log("Inside ",token);
+    
     if (!token) {
       return false;
     }
@@ -27,10 +30,14 @@ export class TokenService {
     const jwtHelper = new JwtHelperService();
     const isTokenExpired = jwtHelper.isTokenExpired(token);
     if (isTokenExpired) {
-      localStorage.removeItem(this._ACCESS_TOKEN_KEY); // Remove only the token, not clear all
+      localStorage.removeItem(this._ACCESS_TOKEN_KEY); 
       return false;
     }
 
     return true;
+  }
+
+  isTokenNotValid() {
+    return !this.isTokenValid();
   }
 }
