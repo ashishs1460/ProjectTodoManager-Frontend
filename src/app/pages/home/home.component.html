@@ -1,1 +1,45 @@
-<p>home works!</p>
+<body>
+  <section class="flex  " style="height: 100vh;">
+    <!-- Sidebar Navigation -->
+    <app-sidenav 
+      [navData]="navbarData" 
+      [logoText]="logoText"
+      [logoIcon]="logoIcon"
+    ></app-sidenav>
+
+    <!-- Main Content -->
+    <main class="flex-1 bg-black p-6">
+      <!-- Use ng-container to conditionally display content -->
+      <ng-container *ngIf="!isProjectRouteActive">
+        <div class="flex flex-col items-center justify-center h-full">
+          <div class="flex flex-col items-center">
+            <div class="flex items-center space-x-4 mb-6">
+              <span class="bg-yellow-600 text-white px-4 py-2 rounded-full shadow-lg text-4xl font-extrabold">
+                {{ user.firstName }}'s
+              </span>
+              <span class="text-4xl font-mono text-gray-300">
+                Workspace
+              </span>
+            </div>
+            <p class="text-lg text-gray-200 mt-2 font-mono">
+              Welcome to your personalized workspace!
+            </p>
+          </div>
+
+          <div class="flex space-x-4 mt-8">
+            <a
+              routerLink="project"
+              class="bg-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-700 transition duration-300 flex items-center space-x-2"
+            >
+              <i class="fas fa-plus"></i> <!-- Font Awesome plus icon -->
+              <span>Create New Project</span>
+            </a>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Router Outlet for displaying child components -->
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</body>

@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { ProjectComponent } from './project/project.component';
 
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    SidenavComponent,
+    ProjectComponent
   ],
   imports: [
     CommonModule,

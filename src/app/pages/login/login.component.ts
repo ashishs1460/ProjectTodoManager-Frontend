@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TokenService } from '../../services/token.service';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { TokenService } from '../../services/token.service';
 export class LoginComponent {
   loginForm: FormGroup;
   token:string;
+  userId:number|null;
 
   constructor(
     private fb: FormBuilder,
@@ -31,12 +33,16 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next:(response)=>{
+          
+          
           this.token= response.token;
+          this.userId = response.user.id;
           this.tokenService.setAccessToken(this.token);
+          localStorage.setItem('userId',this.userId.toString());
           this.router.navigate(['/home'])
         },
         error: (err) => {
-          console.log(err,">>>>>>>>>>>>")
+          
           if (err.status === 403) {
             this.toastr.error('Invalid email or password');
           } else {

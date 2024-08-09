@@ -8,7 +8,7 @@ const routes: Routes = [
   {path:'register',component:RegisterComponent},
   {path:'login',component:LoginComponent},
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),canActivate: [authGuard] },
-  
+  { path: '', redirectTo: 'home', pathMatch: 'full' } 
 ];
 
 @NgModule({

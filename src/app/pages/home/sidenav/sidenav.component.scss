@@ -1,0 +1,106 @@
+.sidenav {
+    background-color: rgb(54, 51, 51);
+    transition: all 0.5s ease;
+    position: absolute;
+    z-index: 1;
+    top: 0; /* Ensures the sidenav starts from the top */
+    left: 0; /* Anchors the sidenav to the left side */
+    width: 6rem;
+    height: 100vh; /* Makes the sidenav height 100% of the viewport height */
+    box-shadow: 0.063rem 0 1.25rem 0 rgb(18, 16, 16);
+  
+    &.sidenav-collapsed {
+      width: 16.5625rem;
+    }
+  
+    .log-container {
+      display: flex;
+      align-items: center;
+      padding: 0.938rem;
+      width: 100%;
+      .logo {
+        background: goldenrod;
+        text-align: center;
+        width: 3rem;
+        min-width: 3rem;
+        border-radius: 0.313rem;
+        padding: 0.313rem;
+        font-size: 24px;
+        font-weight: 900;
+        cursor: pointer;
+        border: none;
+      }
+  
+      .logo-text {
+        margin-left: 1.5rem;
+        font-size: 24px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .btn-close {
+        margin-left: auto;
+        cursor: pointer;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: transparent;
+        border: none;
+        .fa-times {
+          color: #fff;
+          font-size: 24px;
+        }
+      }
+    }
+  
+    .sidenav-nav {
+      list-style: none;
+      padding: 0.938rem;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      height: calc(100vh - 10.65rem);
+      overflow-y: auto; /* Ensures overflow is scrollable */
+      cursor: pointer;
+  
+      .sidenav-nav-item {
+        width: 100%;
+        margin-bottom: 0.625rem;
+        margin-top: 1rem;
+        .sidenav-nav-link {
+          display: flex;
+          margin-left: 22px;
+          width: auto;
+          align-items: center;
+          height: 3rem;
+          color: #f3f3f3;
+          border-radius: 0.625rem;
+          text-decoration: none;
+          transition: all 0.3s ease;
+  
+          .sidenav-link-icon {
+            font-size: 24px;
+            width: 2rem;
+            min-width: 2rem;
+            margin: 0;
+            text-align: center;
+          }
+          .sidenav-link-text {
+            margin-left: 1rem;
+            width: 160px;
+          }
+        }
+      }
+      .sidenav-nav-item:hover {
+        .sidenav-nav-link {
+          background-color: goldenrod;
+          color: #000;
+        }
+      }
+    }
+  }
+  .custom-icon {
+    font-size: 28px; /* Adjust the size as needed */
+    color: goldenrod; /* Set the color to white */
+}
+

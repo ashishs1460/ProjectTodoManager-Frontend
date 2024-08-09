@@ -1,0 +1,33 @@
+<body>
+    <section class="flex  ">
+      
+      <!-- Main Content -->
+      <main class="flex-1 bg-black p-6 flex flex-col items-center justify-center text-center">
+        <!-- Empty Project View -->
+        <div *ngIf="!content" class="flex flex-col items-center max-w-lg mx-auto">
+          <img
+            src="https://www.pngmart.com/files/1/Folders-PNG-Transparent-Image.png"
+            alt="Empty Folder"
+            
+          />
+      
+          <h2 class="text-white text-3xl md:text-4xl font-semibold mb-4 font-mono">
+            No Projects Available!
+          </h2>
+          <p class="text-gray-400 text-lg md:text-xl mb-8">
+            It looks like you haven't created any projects yet. Get started by creating a new project!
+          </p>
+      
+          <a
+            routerLink="project"
+            class="bg-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-700 transition duration-300 flex items-center space-x-2"
+          >
+            <i class="fas fa-plus text-lg"></i>
+            <span>Create New Project</span>
+          </a>
+        </div>
+      </main>
+      
+    </section>
+  </body>
+  
