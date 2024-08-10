@@ -1,4 +1,4 @@
-<div class="sidenav " [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
     <div class="log-container">
       <button class="logo" (click)="toggleCollapse()">{{ logoIcon }}</button>
       <div class="logo-text" *ngIf="collapsed">{{ logoText }}</div>
@@ -6,6 +6,12 @@
         <i class="fas fa-angle-double-left custom-icon"></i>
       </button>
     </div>
+    <div class="sidenav-nav-item signout-item">
+        <button class="sidenav-nav-link" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="sidenav-link-text" *ngIf="collapsed">Sign out</span>
+        </button>
+      </div>
     <ul class="sidenav-nav">
       <li class="sidenav-nav-item" *ngFor="let data of navData">
         <a class="sidenav-nav-link" [routerLink]="data.routerLink">
@@ -14,5 +20,6 @@
         </a>
       </li>
     </ul>
+   
   </div>
   

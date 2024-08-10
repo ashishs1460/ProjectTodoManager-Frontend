@@ -1,33 +1,66 @@
 <body>
-    <section class="flex  ">
-      
-      <!-- Main Content -->
-      <main class="flex-1 bg-black p-6 flex flex-col items-center justify-center text-center">
-        <!-- Empty Project View -->
-        <div *ngIf="!content" class="flex flex-col items-center max-w-lg mx-auto">
-          <img
-            src="https://www.pngmart.com/files/1/Folders-PNG-Transparent-Image.png"
-            alt="Empty Folder"
-            
-          />
-      
-          <h2 class="text-white text-3xl md:text-4xl font-semibold mb-4 font-mono">
-            No Projects Available!
-          </h2>
-          <p class="text-gray-400 text-lg md:text-xl mb-8">
-            It looks like you haven't created any projects yet. Get started by creating a new project!
-          </p>
-      
-          <a
-            routerLink="project"
-            class="bg-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-700 transition duration-300 flex items-center space-x-2"
-          >
-            <i class="fas fa-plus text-lg"></i>
-            <span>Create New Project</span>
-          </a>
-        </div>
-      </main>
-      
-    </section>
-  </body>
-  
+  <section class="flex flex-col items-center justify-center p-6 bg-black ">
+    <!-- Project Cards -->
+    <div  class="mb-8">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6 font-mono text-center">
+        Your <span class="text-yellow-500" >Projects</span> 
+      </h2>
+      <hr class="w-full border-t-2 border-yellow-500 mb-4">
+    </div>
+    
+    <div *ngIf="project && project.length > 0; else noProjects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div 
+      *ngFor="let proj of project" 
+      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col items-center transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+    >
+      <!-- Centered Title with Larger Font Size -->
+      <h3 class="text-2xl font-semibold mb-2 text-center">{{ proj.title }}</h3>
+    
+      <!-- Yellow Horizontal Line -->
+      <hr class="w-full border-t-2 border-yellow-500 mb-4">
+    
+      <!-- Created On with Green Text -->
+      <p class="text-green-500">Created on: <span class="text-gray-400">{{ proj.createdDate | date }}</span></p>
+    
+      <!-- Todos Section -->
+      <div *ngIf="proj.todos.length > 0; else noTodos" class="w-full">
+        <h4 class="text-lg font-medium mb-2">Todos:</h4>
+        <ul class="list-disc list-inside pl-4">
+          <li *ngFor="let todo of proj.todos" class="text-gray-300">{{ todo.description }}</li>
+        </ul>
+      </div>
+      <ng-template #noTodos>
+        <p class="text-gray-500">No todos available.</p>
+      </ng-template>
+    
+      <!-- Show Details Button -->
+      <div class="mt-4 w-full">
+        <button
+          (click)="showProjectDetails(proj.id)"
+          class="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition duration-300"
+        >
+          Show Details
+        </button>
+      </div>
+    </div>
+    
+    </div>
+
+    <!-- No Projects Available Message -->
+    <ng-template #noProjects>
+      <div class="flex flex-col items-center max-w-lg mx-auto">
+        <img
+          src="https://www.pngmart.com/files/1/Folders-PNG-Transparent-Image.png"
+          alt="Empty Folder"
+          class="w-32 h-32 mb-4"
+        />
+        <h2 class="text-white text-3xl md:text-4xl font-semibold mb-4 font-mono">
+          No Projects Available!
+        </h2>
+        <p class="text-gray-400 text-lg md:text-xl mb-8 text-center">
+          It looks like you haven't created any projects yet. Get started by creating a new project!
+        </p>
+      </div>
+    </ng-template>
+  </section>
+</body>

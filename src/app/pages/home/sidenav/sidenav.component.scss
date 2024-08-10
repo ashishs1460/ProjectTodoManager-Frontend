@@ -3,10 +3,10 @@
     transition: all 0.5s ease;
     position: absolute;
     z-index: 1;
-    top: 0; /* Ensures the sidenav starts from the top */
-    left: 0; /* Anchors the sidenav to the left side */
+    top: 0;
+    left: 0;
     width: 6rem;
-    height: 100vh; /* Makes the sidenav height 100% of the viewport height */
+    height: 100vh;
     box-shadow: 0.063rem 0 1.25rem 0 rgb(18, 16, 16);
   
     &.sidenav-collapsed {
@@ -18,6 +18,7 @@
       align-items: center;
       padding: 0.938rem;
       width: 100%;
+  
       .logo {
         background: goldenrod;
         text-align: center;
@@ -37,6 +38,7 @@
         font-weight: 700;
         color: #fff;
       }
+  
       .btn-close {
         margin-left: auto;
         cursor: pointer;
@@ -45,6 +47,7 @@
         border-radius: 50%;
         background-color: transparent;
         border: none;
+  
         .fa-times {
           color: #fff;
           font-size: 24px;
@@ -60,13 +63,14 @@
       flex-direction: column;
       align-items: start;
       height: calc(100vh - 10.65rem);
-      overflow-y: auto; /* Ensures overflow is scrollable */
+      overflow-y: auto;
       cursor: pointer;
   
       .sidenav-nav-item {
         width: 100%;
         margin-bottom: 0.625rem;
         margin-top: 1rem;
+  
         .sidenav-nav-link {
           display: flex;
           margin-left: 22px;
@@ -85,12 +89,14 @@
             margin: 0;
             text-align: center;
           }
+  
           .sidenav-link-text {
             margin-left: 1rem;
             width: 160px;
           }
         }
       }
+  
       .sidenav-nav-item:hover {
         .sidenav-nav-link {
           background-color: goldenrod;
@@ -98,9 +104,28 @@
         }
       }
     }
+  
+    .signout-item {
+      margin-top: auto; /* Pushes the sign-out button to the bottom */
+      padding: 0.938rem; /* Optional: Adds padding around the sign-out button */
+  
+      .sidenav-nav-link {
+        margin-left: 22px; /* Align with other nav items */
+        display: flex;
+        align-items: center;
+        color: #f3f3f3;
+        transition: all 0.3s ease;
+        
+        .fas {
+          margin-right: 1rem; /* Space between icon and text */
+        }
+      }
+    }
   }
+  
+  
   .custom-icon {
-    font-size: 28px; /* Adjust the size as needed */
-    color: goldenrod; /* Set the color to white */
-}
-
+    font-size: 28px;
+    color: goldenrod;
+  }
+  

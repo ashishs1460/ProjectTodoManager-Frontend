@@ -16,12 +16,14 @@ import { spinnerReducer } from './store/spinner.reducer';
 import { LoadingSpinnerComponent } from './common/loading-spinner/loading-spinner.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+
   ],
   imports: [
     BrowserModule,
