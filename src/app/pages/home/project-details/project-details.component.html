@@ -132,31 +132,53 @@
                 <ul class="list-none space-y-4">
                   <li *ngFor="let item of todo" class="bg-gray-900 p-4 rounded-lg shadow-lg relative">
                     <div class="flex justify-between items-center mb-4">
-                      <h4 class="text-lg font-semibold text-yellow-500 font-mono">{{ item.description }}</h4>
+                      <h4
+                      class="text-lg font-semibold font-mono"
+                      [ngClass]="{
+                        'text-yellow-500': item.status !== 'COMPLETE',
+                        'line-through': item.status === 'COMPLETE'
+                      }"
+                    >
+                      {{ item.description }}
+                    </h4>
                       <div class="flex space-x-3">
                         <button
-                          class="text-white hover:text-blue-500 transition duration-300"
+                          class="text-blue-500 hover:text-blue-700 transition duration-300"
                           (click)="openUpdateTaskModal(item)"
                         >
                           <i class="fas fa-edit text-2xl"></i>
                         </button>
                         <button
-                          class="text-white hover:text-red-500 transition duration-300"
+                          class="text-red-500 hover:text-red-700 transition duration-300"
                           (click)="deleteTodo(item.id)"
                         >
                           <i class="fas fa-trash-alt text-2xl"></i>
                         </button>
                         <button
-                          class="text-white hover:text-yellow-500 transition duration-300"
-                          (click)="updateStatus(item.id)"
-                        >
-                          <i class="fas fa-sync-alt text-2xl"></i>
-                        </button>
+                        class="text-gray-50 font-bold transition duration-300 py-2 px-3 rounded-full"
+                        [ngClass]="{
+                          'bg-green-600 hover:bg-green-700': item.status === 'PENDING',
+                          'bg-yellow-500 hover:bg-yellow-700': item.status === 'COMPLETE'
+                        }"
+                        (click)="updateStatus(item)"
+                      >
+                        {{ item.status === 'PENDING' ? 'Done' : 'Delay' }}
+                      </button>
+                      
                       </div>
                     </div>
                     <p class="text-lg text-white">Status: 
-                      <span class="text-red-400 font-bold text-md m-2">{{ item.status }}</span>
+                      <span
+                        class="font-bold text-md m-2"
+                        [ngClass]="{
+                          'text-red-400': item.status === 'PENDING',
+                          'text-green-400': item.status === 'COMPLETE'
+                        }"
+                      >
+                        {{ item.status }}
+                      </span>
                     </p>
+                    
                     <div class="absolute right-4 bottom-4 text-xs text-gray-400">
                       <p class="text-green-500">
                         Created on: <span class="text-white m-2 font-mono">{{ item.createdDate | date }}</span>

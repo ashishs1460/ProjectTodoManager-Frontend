@@ -1,49 +1,51 @@
 <body>
-  <section class="flex flex-col items-center justify-center p-6 bg-black ">
+  <section class="flex flex-col p-6 bg-black ml-16 lg:ml-64">
     <!-- Project Cards -->
-    <div  class="mb-8">
+    <div class="mb-8">
       <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6 font-mono text-center">
-        Your <span class="text-yellow-500" >Projects</span> 
+        Your <span class="text-yellow-500">Projects</span>
       </h2>
       <hr class="w-full border-t-2 border-yellow-500 mb-4">
     </div>
-    
+
     <div *ngIf="project && project.length > 0; else noProjects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div 
-      *ngFor="let proj of project" 
-      class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col items-center transform transition duration-300 hover:scale-105 hover:shadow-2xl"
-    >
-      <!-- Centered Title with Larger Font Size -->
-      <h3 class="text-2xl font-semibold mb-2 text-center">{{ proj.title }}</h3>
-    
-      <!-- Yellow Horizontal Line -->
-      <hr class="w-full border-t-2 border-yellow-500 mb-4">
-    
-      <!-- Created On with Green Text -->
-      <p class="text-green-500">Created on: <span class="text-gray-400">{{ proj.createdDate | date }}</span></p>
-    
-      <!-- Todos Section -->
-      <div *ngIf="proj.todos.length > 0; else noTodos" class="w-full">
-        <h4 class="text-lg font-medium mb-2">Todos:</h4>
-        <ul class="list-disc list-inside pl-4">
-          <li *ngFor="let todo of proj.todos" class="text-gray-300">{{ todo.description }}</li>
-        </ul>
+      <div
+        *ngFor="let proj of project"
+        class="bg-gray-800 text-white rounded-lg shadow-lg p-6 flex flex-col items-center transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+      >
+        <!-- Centered Title with Larger Font Size -->
+        <h3 class="text-2xl font-semibold mb-2 text-center">{{ proj.title }}</h3>
+
+        <!-- Yellow Horizontal Line -->
+        <hr class="w-full border-t-2 border-yellow-500 mb-4">
+
+        <!-- Created On with Green Text -->
+        <p class="text-green-500">Created on: <span class="text-gray-400">{{ proj.createdDate | date }}</span></p>
+
+        <!-- Todos Section -->
+        <div *ngIf="proj.todos.length > 0; else noTodos">
+          <h4 class="text-lg font-medium mb-2">Todos:</h4>
+          <div class="max-h-12 overflow-y-auto p-2 bg-gray-800 rounded-lg">
+            <ul class="list-disc list-inside pl-4">
+              <li *ngFor="let todo of proj.todos" class="text-gray-300">{{ todo.description }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <ng-template #noTodos>
+          <p class="text-gray-500">No todos available.</p>
+        </ng-template>
+
+        <!-- Show Details Button -->
+        <div class="mt-4 w-full">
+          <button
+            (click)="showProjectDetails(proj.id)"
+            class="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition duration-300"
+          >
+            Show Details
+          </button>
+        </div>
       </div>
-      <ng-template #noTodos>
-        <p class="text-gray-500">No todos available.</p>
-      </ng-template>
-    
-      <!-- Show Details Button -->
-      <div class="mt-4 w-full">
-        <button
-          (click)="showProjectDetails(proj.id)"
-          class="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition duration-300"
-        >
-          Show Details
-        </button>
-      </div>
-    </div>
-    
     </div>
 
     <!-- No Projects Available Message -->

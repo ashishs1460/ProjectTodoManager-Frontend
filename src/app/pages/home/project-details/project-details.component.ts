@@ -9,6 +9,7 @@ import { Todo } from '../../../model/todo';
 import { TodoRequest } from '../../../model/todo-request';
 import Swal from 'sweetalert2';
 import { TodoUpdateRequest } from '../../../model/todo-update-request';
+import { TodoStatusUpdateRequest } from '../../../model/todo-status-update-request';
 
 @Component({
   selector: 'app-project-details',
@@ -19,6 +20,7 @@ export class ProjectDetailsComponent {
   projectId: number;
   project: Project | undefined;
   todo: Todo[] = [];
+  status:string;
   isEditProjectModalOpen: boolean = false;
   isAddTaskModalOpen: boolean = false;
   isUpdateTaskModalOpen: boolean = false;
@@ -172,5 +174,27 @@ export class ProjectDetailsComponent {
         });
       }
     });
+  }
+  updateStatus(item:Todo){
+    if(item.status === "PENDING"){
+      this.status = "COMPLETE";
+    }
+    if(item.status == "COMPLETE"){
+      this.status = "PENDING";
+    }
+    this.currentTodoId = item.id;
+    const req:TodoStatusUpdateRequest={
+      projectId:this.projectId,
+      todoId:this.currentTodoId,
+      status:this.status
+    }
+    this.projectService.updateProjectStatus(req).subscribe({
+      next:(response)=>{
+        this.getProject();
+        this.toaster.success("Status updated successfully!");
+      },error:(error)=>{
+        this.toaster.error("Status updation failed !");
+      }
+    })
   }
 }

@@ -8,6 +8,7 @@ import { ProjectUpdateRequest } from '../model/project-update-request';
 import { TodoCreationRequest } from '../model/todo-creation-request';
 import { TodoRequest } from '../model/todo-request';
 import { TodoUpdateRequest } from '../model/todo-update-request';
+import { TodoStatusUpdateRequest } from '../model/todo-status-update-request';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,9 @@ export class ProjectService {
   updateTodo(req: TodoUpdateRequest) :Observable<Project>{
     return this.http.post<Project>(`${this.apiUrl}/updateTodo`,req);
   }
-  
+  updateProjectStatus(req: TodoStatusUpdateRequest):Observable<Project> {
+    return this.http.post<Project>(`${this.apiUrl}/updateTodoStatus`,req);
+  }
+
 
 }
