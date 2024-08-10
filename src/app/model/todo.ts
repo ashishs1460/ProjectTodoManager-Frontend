@@ -5,8 +5,8 @@ export interface Todo {
     id: number;
     description: string;
     status: string;
-    createdDate: string; // Use string to match LocalDate format (ISO string)
-    updatedDate: string; // Use string to match LocalDate format (ISO string)
-    project: Project; // Reference to the Project entity
+    createdDate: string; 
+    updatedDate: string; 
+    project: Project; 
   }
   

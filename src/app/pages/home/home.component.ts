@@ -95,7 +95,7 @@ export class HomeComponent implements OnInit {
       )
       this.closeCreateProjectModal();
     } else {
-      console.error('Project name is required');
+      this.tostar.error('Project name is required');
     }
   }
 

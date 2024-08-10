@@ -3,6 +3,7 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../model/user';
 import { Project } from '../../../model/project';
 import { Todo } from '../../../model/todo';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -16,7 +17,9 @@ export class ProjectComponent implements OnInit {
   todo: Todo[] | undefined = [];
   content: boolean = true;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+    private router:Router
+  ) {}
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -37,6 +40,9 @@ export class ProjectComponent implements OnInit {
       });
     }
   }
-
+  showProjectDetails(id:number){
+   
+    this.router.navigate(['/home/projectDetails', id]);
+  }
   
 }

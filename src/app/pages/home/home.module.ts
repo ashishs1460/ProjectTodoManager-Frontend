@@ -6,13 +6,15 @@ import { HomeComponent } from './home.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ProjectComponent } from './project/project.component';
 import { FormsModule } from '@angular/forms';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent,
     SidenavComponent,
-    ProjectComponent
+    ProjectComponent,
+    ProjectDetailsComponent
   ],
   imports: [
     CommonModule,

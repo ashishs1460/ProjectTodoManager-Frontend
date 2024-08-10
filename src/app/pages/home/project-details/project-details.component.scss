@@ -1,0 +1,29 @@
+.project-details-container {
+    margin-left: 6rem;
+    transition: margin-left 0.5s ease;
+    
+    @media (min-width: 768px) {
+      margin-left: 16.5625rem; 
+    }
+    
+    .project-info, .todos {
+      background-color: rgb(54, 51, 51);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: goldenrod;
+    }
+    
+    .actions {
+      button {
+        background-color: goldenrod;
+        &:hover {
+          background-color: darkgoldenrod;
+        }
+      }
+    }
+  }
+  
