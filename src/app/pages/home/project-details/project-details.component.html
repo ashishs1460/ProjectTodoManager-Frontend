@@ -112,7 +112,14 @@
         </div>
         <p class="text-green-500 mb-2 inline m-2">Created on:</p>
         <span class="text-white font-mono">{{ project?.createdDate | date }}</span>
-      
+          <button
+            (click)="exportAsGist()"
+            class="bg-purple-600 m-3 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition duration-300 flex items-center space-x-2 shadow-lg"
+            >
+            <i class="fab fa-github"></i>
+            <span class="font-semibold">Export as Gist</span>
+          </button>
+
         <hr class="border-t-2 border-yellow-500 my-4">
       
         <h3 class="text-2xl font-medium mb-4 text-center font-mono">Things to Do</h3>

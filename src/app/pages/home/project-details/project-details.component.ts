@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../../services/project.service';
 import { Project } from '../../../model/project';
@@ -10,33 +10,77 @@ import { TodoRequest } from '../../../model/todo-request';
 import Swal from 'sweetalert2';
 import { TodoUpdateRequest } from '../../../model/todo-update-request';
 import { TodoStatusUpdateRequest } from '../../../model/todo-status-update-request';
+import { GistService } from '../../../services/gist.service';
 
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
   styleUrls: ['./project-details.component.scss']
 })
-export class ProjectDetailsComponent {
+export class ProjectDetailsComponent implements OnInit {
   projectId: number;
   project: Project | undefined;
   todo: Todo[] = [];
-  status:string;
-  isEditProjectModalOpen: boolean = false;
-  isAddTaskModalOpen: boolean = false;
-  isUpdateTaskModalOpen: boolean = false;
-  editedProjectName: string = '';
-  taskDescription: string = '';
+  status: string;
+  isEditProjectModalOpen = false;
+  isAddTaskModalOpen = false;
+  isUpdateTaskModalOpen = false;
+  editedProjectName = '';
+  taskDescription = '';
   currentTodoId: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private gistService: GistService
   ) {}
 
   ngOnInit(): void {
-    this.projectId = +this.route.snapshot.paramMap.get('id');
+   
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.projectId = idParam ? +idParam : 0;
     this.getProject();
+
+    this.handleOAuthCallback();
+  }
+
+  private handleOAuthCallback(): void {
+   
+    const code = this.route.snapshot.queryParamMap.get('code');
+    const state = this.route.snapshot.queryParamMap.get('state');
+    const savedState = localStorage.getItem('oauth_state'); 
+
+    if (code && state && state === savedState) { 
+      
+      this.gistService.getGithubToken(code).subscribe({
+        next: (response) => {
+          const accessToken = response.access_token;
+          const gistData = {
+            description: `Project summary for ${this.project?.title}`,
+            public: false,
+            files: {
+              [`${this.project?.title}.md`]: {
+                content: this.generateMarkdown()
+              }
+            }
+          };
+
+          this.gistService.createGist(accessToken, gistData).subscribe({
+            next: () => {
+              this.toaster.success("Gist created successfully!");
+            },
+            error: (err) => {
+              this.toaster.error("Failed to create Gist.");
+              console.error(err);
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Failed to exchange code for token', err);
+        }
+      });
+    }
   }
 
   getProject(): void {
@@ -67,11 +111,10 @@ export class ProjectDetailsComponent {
     this.currentTodoId = null;
   }
 
-  openUpdateTaskModal(item:Todo): void {
+  openUpdateTaskModal(item: Todo): void {
     this.isUpdateTaskModalOpen = true;
-    this.taskDescription = item.description; 
-    this.currentTodoId = item.id; 
-   
+    this.taskDescription = item.description;
+    this.currentTodoId = item.id;
   }
 
   closeTaskModal(): void {
@@ -96,7 +139,7 @@ export class ProjectDetailsComponent {
           this.closeEditProjectModal();
         },
         error: (error) => {
-          this.toaster.error("Project name updation failed!");
+          this.toaster.error("Project name update failed!");
         }
       });
     }
@@ -126,27 +169,24 @@ export class ProjectDetailsComponent {
   updateTask(): void {
     if (!this.taskDescription.trim()) {
       this.toaster.error("Task description can't be empty!");
-    
     } else {
-      const req:TodoUpdateRequest={
-        updatedDescription:this.taskDescription,
-        projectId:this.projectId,
-        todoId:this.currentTodoId
-      }
+      const req: TodoUpdateRequest = {
+        updatedDescription: this.taskDescription,
+        projectId: this.projectId,
+        todoId: this.currentTodoId
+      };
       this.projectService.updateTodo(req).subscribe({
-        next:(response)=>{
+        next: (response) => {
           this.getProject();
           this.toaster.success("Task updated successfully!");
           this.closeTaskModal();
-        },error:(error)=>{
-          this.toaster.error("Task failed to upate!");
+        },
+        error: (error) => {
+          this.toaster.error("Task update failed!");
         }
-      })
-     
+      });
     }
   }
-
- 
 
   deleteTodo(id: number): void {
     Swal.fire({
@@ -175,26 +215,86 @@ export class ProjectDetailsComponent {
       }
     });
   }
-  updateStatus(item:Todo){
-    if(item.status === "PENDING"){
-      this.status = "COMPLETE";
-    }
-    if(item.status == "COMPLETE"){
-      this.status = "PENDING";
-    }
+
+  updateStatus(item: Todo): void {
+    this.status = item.status === "PENDING" ? "COMPLETE" : "PENDING";
     this.currentTodoId = item.id;
-    const req:TodoStatusUpdateRequest={
-      projectId:this.projectId,
-      todoId:this.currentTodoId,
-      status:this.status
-    }
+    const req: TodoStatusUpdateRequest = {
+      projectId: this.projectId,
+      todoId: this.currentTodoId,
+      status: this.status
+    };
     this.projectService.updateProjectStatus(req).subscribe({
-      next:(response)=>{
+      next: (response) => {
         this.getProject();
         this.toaster.success("Status updated successfully!");
-      },error:(error)=>{
-        this.toaster.error("Status updation failed !");
+      },
+      error: (error) => {
+        this.toaster.error("Status update failed!");
       }
-    })
+    });
   }
+
+  generateMarkdown(): string {
+    if (!this.project) {
+      return '';
+    }
+
+    const title = `# ${this.project.title}\n\n`;
+    const totalTodos = this.todo.length;
+    const completedTodos = this.todo.filter(todo => todo.status === 'COMPLETE').length;
+    const summary = `**Summary:** ${completedTodos} / ${totalTodos} completed\n\n`;
+
+    let pendingTasks = '## Pending Tasks\n';
+    let completedTasks = '## Completed Tasks\n';
+
+    this.todo.forEach(item => {
+      if (item.status === 'PENDING') {
+        pendingTasks += `- [ ] ${item.description}\n`;
+      } else if (item.status === 'COMPLETE') {
+        completedTasks += `- [x] ${item.description}\n`;
+      }
+    });
+
+    return title + summary + pendingTasks + '\n' + completedTasks;
+  }
+
+  exportAsGist(): void {
+    const markdownContent = this.generateMarkdown();
+    const gistData = {
+      description: `Project summary for ${this.project?.title}`,
+      public: false,
+      files: {
+        [`${this.project?.title}.md`]: {
+          content: markdownContent
+        }
+      }
+    };
+
+    this.downloadMarkdownFile(`${this.project?.title}.md`, markdownContent);
+
+    const clientId = 'Ov23liaBWWxDIVoTIIlM'; 
+    const redirectUri = `http://localhost:4200/home/projectDetails/${this.projectId}`; 
+    const state = this.generateState();
+
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=gist&state=${state}`;
+    localStorage.setItem('oauth_state', state); 
+
+    window.location.href = githubAuthUrl; 
+  }
+
+  private generateState(): string {
+    return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+  }
+  private downloadMarkdownFile(fileName: string, content: string): void {
+    const blob = new Blob([content], { type: 'text/markdown' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+}
 }
