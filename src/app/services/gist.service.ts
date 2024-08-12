@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GistService {
-  private backendOAuthUrl = 'todohatio-btexhmcpaherbvcy.eastus-01.azurewebsites.net/api/v1/oauth/exchange';
+  private backendOAuthUrl = 'https://todohatio-btexhmcpaherbvcy.eastus-01.azurewebsites.net/api/v1/oauth/exchange';
   private githubGistUrl = 'https://api.github.com/gists';
 
   constructor(private http: HttpClient) { }
