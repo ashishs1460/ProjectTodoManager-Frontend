@@ -42,7 +42,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectId = idParam ? +idParam : 0;
     this.getProject();
 
-    this.handleOAuthCallback();
+   
   }
 
   private handleOAuthCallback(): void {
@@ -89,6 +89,7 @@ export class ProjectDetailsComponent implements OnInit {
         this.project = response;
         this.todo = this.project.todos;
         this.editedProjectName = this.project.title;  // Initialize with current project name
+        this.handleOAuthCallback();
       },
       error: (err) => {
         console.error('Failed to fetch project', err);
