@@ -274,7 +274,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.downloadMarkdownFile(`${this.project?.title}.md`, markdownContent);
 
     const clientId = 'Ov23liaBWWxDIVoTIIlM'; 
-    const redirectUri = `http://localhost:4200/home/projectDetails/${this.projectId}`; 
+    const redirectUri = `https://project-todo-manager-frontend.vercel.app/home/projectDetails/${this.projectId}`; 
     const state = this.generateState();
 
     const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=gist&state=${state}`;

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GistService {
-  private backendOAuthUrl = 'http://localhost:8080/api/v1/oauth/exchange';
+  private backendOAuthUrl = 'todohatio-btexhmcpaherbvcy.eastus-01.azurewebsites.net/api/v1/oauth/exchange';
   private githubGistUrl = 'https://api.github.com/gists';
 
   constructor(private http: HttpClient) { }
@@ -15,7 +15,7 @@ export class GistService {
    
     const body = {
       code: code,
-      redirectUri: 'http://localhost:4200/home/projectDetails'
+      redirectUri: 'https://project-todo-manager-frontend.vercel.app/home/projectDetails'
     };
 
     return this.http.post(this.backendOAuthUrl, body, {

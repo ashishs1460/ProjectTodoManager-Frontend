@@ -9,7 +9,7 @@ import { setLoadingSpinner } from "../store/spinner.action";
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
-    private readonly baseUrl: string = 'http://localhost:8080';
+    private readonly baseUrl: string = 'todohatio-btexhmcpaherbvcy.eastus-01.azurewebsites.net';
     private readonly excludedUrls: string[] = ['https://api.github.com/gists'];
 
     constructor(private tokenService: TokenService,
